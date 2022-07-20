@@ -18,7 +18,6 @@ app.use(cors({
   origin: 'http://localhost:3000'
 }));
 
-app.use(cors());
 app.use(bodyParser.json({ extended: true }));
 app.listen(port, () => console.log("Backend server live on " + port));
 
@@ -27,7 +26,7 @@ app.get("/", (req, res) => {
 });
 
 //add new item to json file
-app.post("/add/item", addItem)
+app.post("/add/item", cookieAuth, addItem)
 
 function addItem(request, response) {
   // Converting Javascript object (Task Item) to a JSON string
@@ -53,7 +52,7 @@ function addItem(request, response) {
   response.send(200)
 }
 
-app.get("/get/items", getItems)
+app.get("/get/items", cookieAuth, getItems)
 //** week5, get all items from the json database*/
 function getItems(request, response) {
   //begin here
@@ -66,7 +65,7 @@ function getItems(request, response) {
   // Note this won't work, why? response.send();
 }
 
-app.get("/get/searchitem", searchItems)
+app.get("/get/searchitem", cookieAuth, searchItems)
 //**week 5, search items service */
 function searchItems(request, response) {
   //begin here
@@ -102,8 +101,3 @@ app.get("/logout", (req, res) => {
   res.end();
 });
 
-app.post("/add/item", cookieAuth, addItem);
-
-app.get("/get/items", cookieAuth, getItems);
-
-app.get("/get/searchitem", cookieAuth, searchItems);
